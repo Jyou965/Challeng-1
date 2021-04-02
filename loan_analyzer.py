@@ -49,15 +49,28 @@ print("Remaining months on the loan is ",remaining_months,".")
 
 
 # 2. Use a minimum required return of 20% as the discount rate to determine the fair value of the loan.
-discount_rate = 0.2
-# I would have defined the calculat_pv function in Part 3 here and call the function in Part 3.  However, in keeping to the instructions of Part 2, I kept it this way.
-fair_value = future_value / ((1+discount_rate/12)**remaining_months)
-print(f"Present value of the loan is $ {fair_value: .2f}.")
+annual_discount_rate = 0.2
+# To be DRY, do the first part of Part 3 here:
+def fair_value(future_value, remaining_months, annual_discount_rate):
+    """ Part 3.1. Define a function to calculate present value.
+    
+    Args:
+        future_value(int): The amount of money the borrower has to pay back upon maturity of the loan (a.k.a. "Face Value")
+        remaining_months(int): The remaining maturity (in months) before the loan needs to be fully repaid.
+        annual_discount_rate(float): annual cost of capital
+    
+    Returns:
+        fair_value(float): the present value of the loan
+    """
+    fair_value = future_value / (1+annual_discount_rate/12)**remaining_months
+    return fair_value
+present_value = fair_value(future_value,remaining_months,annual_discount_rate)
+print(f"Present value of the loan is $ {present_value: .2f}.")
 
 # 3. Determine if the loan is worth the cost.
-if fair_value > loan.get("loan_price"):
+if present_value > loan.get("loan_price"):
     print("The loan is at least worth the cost.")
-elif fair_value < loan.get("loan_price"):
+elif present_value < loan.get("loan_price"):
     print("The loan is not worth the cost.")
 else:
     print("The loan is at the cost.")
@@ -79,23 +92,9 @@ new_loan = {
     "future_value": 1000,
 }
 
-def calculat_pv(future_value, remaining_months, annual_discount_rate):
-    """ 1. Define a function to calculate present value.
-    
-    Args:
-        future_value(int): The amount of money the borrower has to pay back upon maturity of the loan (a.k.a. "Face Value")
-        remaining_months(int): The remaining maturity (in months) before the loan needs to be fully repaid.
-        annual_discount_rate(float): annual cost of capital
-    
-    Returns:
-        present_value(float): the fair value of the loan
-    """
-    pv = future_value / (1+annual_discount_rate/12)**remaining_months
-    return pv
-
 # 2. calculate the present value of the new loan using the annual discount rate of 0.2
 annual_discount_rate = 0.2
-present_value = calculat_pv(new_loan["future_value"], new_loan["remaining_months"],annual_discount_rate)
+present_value = fair_value(new_loan["future_value"], new_loan["remaining_months"],annual_discount_rate)
 print(f"The present value of the new loan is ${present_value: .2f}.")
 
 
