@@ -8,7 +8,7 @@ This is an application for loan portfolio assessment written in python.  It summ
 
 This project leverages python 3.7 with the following packages:
 
-* [csv](https://pymotw.com/2/csv/) - For working with data exported from spreadsheets and databases into text files formatted with fields and records.
+* [csv](https://docs.python.org/3/library/csv.html?highlight=csv#module-csv) - For working with data exported from spreadsheets and databases into text files formatted with fields and records.
 
 * [path library](https://docs.python.org/3/library/pathlib.html) - For utilizing filesystem paths with semantics appropriate for different operating systems.
 
